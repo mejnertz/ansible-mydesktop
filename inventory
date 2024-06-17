@@ -1,0 +1,5 @@
+[localhost]
+localhost ansible_connection=local
+
+[localhost:vars]
+kubectl_version: "1.29.3"

@@ -1,0 +1,28 @@
+---
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - vim
+      - vim-gtk3    # required for version with python
+      - exuberant-ctags
+      - vim-addon-manager
+      - vim-youcompleteme
+  when: ansible_facts.distribution == 'Debian'
+
+- name: Vim addon YCM
+  become: yes
+  become_user: "{{ local_user.stdout }}"
+  ansible.builtin.command: "vim-addon-manager install youcompleteme"
+  when: ansible_facts.distribution == 'Debian'
+
+- name: Download .vimrc
+  become: yes
+  become_user: "{{ local_user.stdout }}"
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/mejnertz/dotfiles/main/.vimrc 
+    dest: ~/.vimrc
+    mode: 775

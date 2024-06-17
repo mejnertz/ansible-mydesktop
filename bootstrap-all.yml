@@ -1,0 +1,45 @@
+---
+- name: Boostrap 1/2
+  hosts: localhost
+  gather_facts: true
+  remote_user: root
+
+  pre_tasks:
+  - name: Update apt
+    become: true
+    ansible.builtin.apt:
+      update_cache: yes
+
+
+- name: Bootstrap 2/3
+  hosts: localhost
+  gather_facts: true
+  remote_user: root
+  become: true
+
+  tasks:
+  - name: Install common packages
+    ansible.builtin.apt:
+      pkg:
+      - tmux
+      - vim
+      - kubectx
+      - snapd
+      - xclip
+      - yq
+      - keychain
+  
+- name: Bootstrap 3/3
+  hosts: localhost
+
+  roles:
+    - vim
+#  gather_facts: true
+#  remote_user: root
+#  become: true
+#
+#  roles:
+#    - githubixx.kubectl
+#    - vimeditor
+#    - k8s-developer
+#    - tmux
