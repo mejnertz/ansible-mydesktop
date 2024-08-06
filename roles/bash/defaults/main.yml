@@ -1,0 +1,6 @@
+---
+# defaults file for bash
+
+completion_use: true
+completion_path: ~/.bash_completion.d
+fasd_use: true

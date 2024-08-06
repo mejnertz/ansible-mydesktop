@@ -1,0 +1,10 @@
+- name: Create dir
+  ansible.builtin.file:
+    path: ~/.bash_completion.d
+    state: directory
+
+- name: Template ~/.bashrc.tpl
+  ansible.builtin.template:
+    src: templates/bashrc.j2
+    dest: ~/.bashrc_test
+    mode: '0644'

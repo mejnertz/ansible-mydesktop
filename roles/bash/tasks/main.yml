@@ -1,0 +1,23 @@
+---
+- name: Require Debian
+  fail:
+    msg: "Role does not support this os"
+  when: ansible_os_family != 'Debian'
+
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - bash
+  when: ansible_facts.distribution == 'Debian'
+
+- include_tasks: completion.yml
+  when:
+    - completion_use == true
+
+- include_tasks: fasd.yml
+  when:
+    - fasd_use == true
